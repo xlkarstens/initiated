@@ -5,9 +5,10 @@ package com.xllq.naturallaw.dengmi.token.service.impl;
 
 import com.xllq.naturallaw.dengmi.common.constant.ResponseCode;
 import com.xllq.naturallaw.dengmi.common.exception.ServiceException;
-import com.xllq.naturallaw.dengmi.common.util.JedisUtil;
+import com.xllq.naturallaw.dengmi.common.util.CacheUtil;
 import com.xllq.naturallaw.dengmi.token.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 /**
@@ -15,9 +16,10 @@ import org.springframework.util.StringUtils;
  * @Date: 2019/6/28 0028
  * @Description: token 的实现类
  */
+@Service
 public class TokenServiceImpl implements TokenService {
     @Autowired
-    private JedisUtil jedisUtil;
+    private CacheUtil cacheUtil;
     /**
      * 跟key生成唯一的token值，放到redis中
      * 如果key为空，就随机生成
@@ -40,10 +42,10 @@ public class TokenServiceImpl implements TokenService {
         if (StringUtils.isEmpty(token)) {
             throw new ServiceException(ResponseCode.ILLEGAL_ARGUMENT.getMsg());
         }
-        if (!jedisUtil.exists(token)) {
+        if (!cacheUtil.hasKey(token)) {
             throw new ServiceException(ResponseCode.REPETITIVE_OPERATION.getMsg());
         }
-        Long del = jedisUtil.del(token);
+        Long del = cacheUtil.del(token);
         if (del <= 0) {
             throw new ServiceException(ResponseCode.REPETITIVE_OPERATION.getMsg());
         }

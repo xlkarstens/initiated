@@ -6,6 +6,7 @@ package com.xllq.naturallaw.dengmi.common.interceptor;
 import com.xllq.naturallaw.dengmi.common.annotation.ApiIdempotent;
 import com.xllq.naturallaw.dengmi.token.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -20,6 +21,7 @@ import java.lang.reflect.Method;
  * @Date: 2019/6/28 0028
  * @Description: 接口幂等性拦截器
  */
+@Service
 public class ApiIdempotentInterceptor implements HandlerInterceptor {
     private static final String TOKEN_NAME = "token";
     @Autowired
