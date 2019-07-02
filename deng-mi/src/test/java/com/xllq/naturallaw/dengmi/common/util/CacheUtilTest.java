@@ -25,4 +25,10 @@ public class CacheUtilTest {
         boolean b = cacheUtil.set("ssh", "value", 1000);
         System.out.println(b);
     }
+
+    @Test
+    public void bDel() {
+        long ssh = cacheUtil.del("ssh");
+        System.out.println(ssh);
+    }
 }
